@@ -1,5 +1,6 @@
 from fman import DirectoryPaneCommand, show_alert, show_prompt
-from fman.url import splitscheme
+from fman.fs import is_dir
+from fman.url import splitscheme, as_url
 from subprocess import DEVNULL, Popen
 
 import os
@@ -9,23 +10,7 @@ import shlex
 _SUBLIMETEXTPATH = 'C:/Program Files/Sublime Text 3/subl.exe'
 
 
-class SublimeOpenProjectInNewWindow(DirectoryPaneCommand):
-	def __call__(self):
-		# show_alert('Hello World!')
-		url = self.pane.get_path()
-		scheme, path = splitscheme(url)
-
-		if scheme != 'file://':
-			show_alert('{} is not supported'.format(url))
-			return
-
-		chosen_files = self.get_chosen_files()
-		if not chosen_files:
-			show_alert('No file is selected!')
-			return		
-		openCommand(" ", chosen_files, path)
-
-class SublimeOpenFolderInNewWindow(DirectoryPaneCommand):
+class SublimeOpenSelected(DirectoryPaneCommand):
 	def __call__(self):
 		url = self.pane.get_path()
 		scheme, path = splitscheme(url)
@@ -35,21 +20,44 @@ class SublimeOpenFolderInNewWindow(DirectoryPaneCommand):
 			return
 
 		chosen_files = self.get_chosen_files()
+		option=" "
+		if len(chosen_files)>1:
+			option= " -n "
 		if not chosen_files:
 			show_alert('No file is selected!')
 			return		
-		openCommand("   ", path, path)						
+		openCommand(option, chosen_files, path)
+
+class SublimeOpenCurrentFolderInNewWindow(DirectoryPaneCommand):
+	def __call__(self):
+		url = self.pane.get_path()
+		scheme, path = splitscheme(url)
+
+		if scheme != 'file://':
+			show_alert('{} is not supported'.format(url))
+			return
+
+		paths=[]
+		paths.append(as_url(path))	
+		chosen_files = self.get_chosen_files()
+			
+		if chosen_files:
+			for file in chosen_files:
+				if not is_dir(file):
+					paths.append(file)
+			
+
+		openCommand(" -n -a  ", paths, path)						
 
 def to_path(url):
-    return splitscheme(url)[1]
+	
+	return splitscheme(url)[1]
 
 def openCommand(option, files, path):
+	# TODO: Check if quoting is working for other platforms
 	args = [shlex.quote(to_path(x)) for x in files]
 	cmd= _SUBLIMETEXTPATH + " " + option + " " + " ".join(args)
 	env = create_clean_environment()
-	f= open('c:\\tmp\\flat.txt', 'a')
-	f.write('\n' + cmd)
-	f.close()	
 	Popen(cmd, shell=False, cwd=path,
 		stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL, env=env)
 
