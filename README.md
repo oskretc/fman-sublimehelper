@@ -1,7 +1,7 @@
 # SublimeHelper
 [fman](https://fman.io) plugin to work with Sublime Text Editor
 
-#Installation
+# Installation
 1 Install using fman Install Plugin command
 2 Modify the file __init__.py and change the **SUBLIMETEXTPATH** to match your system
 
