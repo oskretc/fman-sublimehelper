@@ -5,8 +5,8 @@ from subprocess import DEVNULL, Popen
 import os
 import shlex
 
+# TODO, Add this path to Settings file
 _SUBLIMETEXTPATH = 'C:/Program Files/Sublime Text 3/subl.exe'
-
 
 
 class SublimeOpenProjectInNewWindow(DirectoryPaneCommand):
