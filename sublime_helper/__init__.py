@@ -60,7 +60,9 @@ class SublimeOpenCurrentFolderInNewWindow(DirectoryPaneCommand):
 
 class SublimeSetPath(DirectoryPaneCommand):
 	def __call__(self):
-		if not set_sublime_install_path():
+		if set_sublime_install_path():
+			show_alert('Sublime Text path updated')
+		else:
 			show_alert('Failed to update Sublime Text path')
 
 def to_path(url):
@@ -78,7 +80,6 @@ def set_sublime_install_path():
 
 	_SUBLIMETEXTPATH = new_sublime_filepath
 	save_json(_SUBLIMETEXTCONFIGFILE, {'path': new_sublime_filepath})
-	show_alert('Sublime Text path updated')
 	return True
 
 def get_current_sublime_install_path():
