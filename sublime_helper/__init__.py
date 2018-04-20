@@ -1,4 +1,4 @@
-from fman import DirectoryPaneCommand, show_alert, load_json, save_json, YES, NO
+from fman import DirectoryPaneCommand, show_alert, show_prompt, load_json, save_json, YES, NO
 from fman.fs import is_dir, exists
 from fman.url import splitscheme, as_url
 from subprocess import DEVNULL, Popen
