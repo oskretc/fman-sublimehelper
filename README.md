@@ -3,7 +3,7 @@
 
 # Installation
 1 Install using fman Install Plugin command
-2 Modify the file __init__.py and change the **SUBLIMETEXTPATH** to match your system
+
 
 # Usage
 * Invoke command window with Ctrl+Shift+P/Cmd+Shift+P and type sublime
@@ -18,5 +18,4 @@
 
 
 # TODO
-* Get Editor Path from Settings
 * TODO: Check if quoting is working for other platforms
