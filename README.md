@@ -1,3 +1,9 @@
+If you like the plugin, consider ...
+
+[![Buy me a coffee][buymeacoffee-shield]][buymeacoffee]
+
+
+
 # SublimeHelper
 [fman](https://fman.io) plugin to work with Sublime Text Editor
 
@@ -19,3 +25,7 @@
 
 # TODO
 * TODO: Check if quoting is working for other platforms
+
+
+[buymeacoffee-shield]: https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg
+[buymeacoffee]: https://www.buymeacoffee.com/4DGUZ2NoO
