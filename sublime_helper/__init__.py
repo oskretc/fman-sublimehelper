@@ -4,7 +4,6 @@ from fman.url import splitscheme, as_url
 from subprocess import DEVNULL, Popen
 
 import os
-import shlex
 
 # TODO, Add this path to Settings file
 _SUBLIMETEXTPATHDEFAULT = 'C:/Program Files/Sublime Text 3/subl.exe'
@@ -29,9 +28,9 @@ class SublimeOpenSelected(DirectoryPaneCommand):
 			return
 
 		chosen_files = self.get_chosen_files()
-		option=" "
+		option=[]
 		if len(chosen_files)>1:
-			option= " -n "
+			option= ["-n"]
 		if not chosen_files:
 			show_alert('No file is selected!')
 			return		
@@ -56,7 +55,7 @@ class SublimeOpenCurrentFolderInNewWindow(DirectoryPaneCommand):
 					paths.append(file)
 			
 
-		openCommand(" -n -a  ", paths, path)						
+		openCommand(["-n", "-a"], paths, path)						
 
 class SublimeSetPath(DirectoryPaneCommand):
 	def __call__(self):
@@ -110,9 +109,8 @@ def openCommand(option, files, path):
 
 	_SUBLIMETEXTPATH = sublime_path
 
-	# TODO: Check if quoting is working for other platforms
-	args = [shlex.quote(to_path(x)) for x in files]
-	cmd= _SUBLIMETEXTPATH + " " + option + " " + " ".join(args)
+	args = [to_path(x) for x in files]
+	cmd= [_SUBLIMETEXTPATH] + option + args
 	env = create_clean_environment()
 	Popen(cmd, shell=False, cwd=path,
 		stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL, env=env)
